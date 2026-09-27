@@ -1,0 +1,7 @@
+[project]
+name = "Visual_Representations_in_Brains_and_Computational_Models"
+version = "0.1.0"
+description = "Visual Representations in Brains and Computational Models"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
