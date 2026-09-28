@@ -126,26 +126,26 @@ We utilize the preprocessed human neuroimaging benchmark data from **The Algonau
 ### 1. Representational Dissimilarity Matrices (RDMs)
 
 For each model stage, pairwise distance between stimulus feature vectors $z_i, z_j$ is computed via Pearson correlation distance:
-$$D_{ij} = 1 - \rho_{\text{Pearson}}(z_i, z_j)$$
+$$D_{ij} = 1 - \rho_{\mathrm{Pearson}}(z_i, z_j)$$
 
-Across 92 images, each symmetric RDM yields $\frac{92 \times 91}{2} = 4{,}186$ unique off-diagonal pairwise dissimilarities ($\text{vec}_u$).
+Across 92 images, each symmetric RDM yields $\frac{92 \times 91}{2} = 4{,}186$ unique off-diagonal pairwise dissimilarities ($\mathrm{vec}_u$).
 
 ### 2. Second-Order Brain Alignment (RSA)
 
 Alignment between the model RDM and each brain target RDM is quantified via Spearman's rank correlation:
 
-$$r_{\text{RSA}} = \rho_{\text{Spearman}}(\text{vec}_u D_{\text{model}}, \text{vec}_u D_{\text{brain}})$$
+$$r_{\mathrm{RSA}} = \rho_{\mathrm{Spearman}}(\mathrm{vec}_u D_{\mathrm{model}}, \mathrm{vec}_u D_{\mathrm{brain}})$$
 
 ### 3. Hypothesis Difference Metrics
 
 To isolate specific computational contributions:
-$$\Delta_{\text{learning}} = r_{\text{pretrained}} - r_{\text{random}} \quad (\text{within same ResNet layer})$$
-$$\Delta_{\text{norm}} = r_{\text{B2}} - r_{\text{B1}}, \qquad \Delta_{\text{pool}} = r_{\text{B3}} - r_{\text{B2}}$$
+$$\Delta_{\mathrm{learning}} = r_{\mathrm{pretrained}} - r_{\mathrm{random}} \quad (\text{within same ResNet layer})$$
+$$\Delta_{\mathrm{norm}} = r_{\mathrm{B2}} - r_{\mathrm{B1}}, \qquad \Delta_{\mathrm{pool}} = r_{\mathrm{B3}} - r_{\mathrm{B2}}$$
 
 ### 4. Non-Parametric Bootstrap Statistics
 
 - **Stimulus Bootstrap:** $\ge 1{,}000$ bootstrap iterations resampling stimulus images with replacement (excluding identity pairs) to construct 95% confidence intervals.
-- **Noise Ceiling Normalization:** Reporting raw $r_{\text{RSA}}$ alongside percentage of explainable variance relative to subject noise ceilings.
+- **Noise Ceiling Normalization:** Reporting raw $r_{\mathrm{RSA}}$ alongside percentage of explainable variance relative to subject noise ceilings.
 
 ---
 
