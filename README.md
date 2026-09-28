@@ -22,44 +22,57 @@
 
 ```mermaid
 flowchart TD
-    subgraph Stimuli["Visual Stimuli (92 Images)"]
-        S["Algonauts 2019 Set A<br/>92 Object Images"]
-    end
+    IMG(["🖼️ Visual Stimuli (92 Images)<br/><b>Algonauts 2019 Training Set A</b>"])
 
-    subgraph Models["Computational Models"]
+    subgraph MODELS [" 💻 Computational Vision Models "]
         direction TB
-        M1["Untrained ResNet-50<br/>(Random seed recorded)"]
-        M2["Pretrained ResNet-50<br/>(ImageNet weights)"]
-        M3["B1: Gabor Bank<br/>(Edge filters)"]
-        M4["B2: Normalization<br/>(Divisive norm)"]
-        M5["B3: Local Pooling<br/>(Spatial pooling)"]
+        subgraph RESNET [" Deep Residual Networks "]
+            direction LR
+            M_RAND["<b>Random ResNet-50</b><br/><i>Untrained (fixed seed)</i>"]
+            M_PRE["<b>Pretrained ResNet-50</b><br/><i>ImageNet-1k weights</i>"]
+        end
+        subgraph GABOR [" Bio-Inspired Canonical Pipeline "]
+            direction LR
+            B1["<b>B1: Gabor Bank</b><br/><i>Edge selectivity</i>"] --> B2["<b>B2: Normalization</b><br/><i>Divisive suppression</i>"] --> B3["<b>B3: Local Pooling</b><br/><i>Spatial tolerance</i>"]
+        end
+        FEAT["📐 <b>Feature Probes & Spatial Pooling</b><br/>ResNet <code>layer1</code> · <code>layer3</code> · <code>layer4</code> & Gabor B1–B3<br/><i>(Downsampled to 8×8 / native 7×7 grid)</i>"]
+        RESNET --> FEAT
+        GABOR --> FEAT
     end
 
-    subgraph RDMs["Representational Dissimilarity"]
-        MRDM["Model RDMs<br/>(Pearson distance: 4,186 pairs)"]
-        BRDM["Human Brain RDMs<br/>(15 subjects + noise ceilings)"]
+    subgraph BRAIN [" 🧠 Human Neuroimaging Targets (15 Subjects) "]
+        direction TB
+        subgraph FMRI [" Spatial Targets (fMRI) "]
+            direction LR
+            EVC["<b>Early Visual Cortex (EVC)</b><br/><i>V1, V2, V3 low-level features</i>"]
+            IT["<b>Inferior Temporal (IT)</b><br/><i>Object & category geometry</i>"]
+        end
+        subgraph MEG [" Temporal Targets (MEG) "]
+            direction LR
+            MEG_E["<b>Early Window</b> (~70–100 ms)<br/><i>Initial visual response</i>"]
+            MEG_L["<b>Late Window</b> (~150–250 ms)<br/><i>High-level object semantics</i>"]
+        end
     end
 
-    subgraph Targets["Brain Targets"]
-        T1["fMRI: EVC<br/>(Early Visual Cortex)"]
-        T2["fMRI: IT<br/>(Inferior Temporal)"]
-        T3["MEG: Early Window<br/>(~70–100 ms)"]
-        T4["MEG: Late Window<br/>(~150–250 ms)"]
+    IMG ==>|"Feedforward pass"| MODELS
+    IMG ==>|"Stimulus presentation"| BRAIN
+
+    RDM_M[("📊 <b>Model RDMs</b><br/>Pearson distance (4,186 pairs)")]
+    RDM_B[("📊 <b>Brain Target RDMs</b><br/>4 Targets + Noise Ceilings")]
+
+    FEAT --> RDM_M
+    BRAIN --> RDM_B
+
+    subgraph EVAL [" ⚖️ Comparative Evaluation & Inference "]
+        direction TB
+        RSA{{"<b>Spearman Rank Alignment (r_RSA)</b><br/>r_RSA = ρ(vec_u D_model, vec_u D_brain)"}}
+        BOOT["<b>Non-Parametric Stimulus Bootstrap</b><br/>1,000 resamples with replacement (95% CI)"]
+        DIFF[["<b>Hypothesis Testing (Δ Metrics)</b><br/>Δ_learning = r_pre - r_rand<br/>Δ_norm = r_B2 - r_B1 · Δ_pool = r_B3 - r_B2"]]
+        RSA ==> BOOT ==> DIFF
     end
 
-    subgraph Evaluation["Statistical Comparison"]
-        RSA["Spearman Rank Correlation (r_RSA)"]
-        BOOT["1,000 Stimulus Bootstraps (95% CI)"]
-        DIFF["Δ_learning | Δ_norm | Δ_pool"]
-    end
-
-    S --> Models
-    Models --> MRDM
-    S --> Targets
-    Targets --> BRDM
-    MRDM --> RSA
-    BRDM --> RSA
-    RSA --> BOOT --> DIFF
+    RDM_M ==> RSA
+    RDM_B ==> RSA
 ```
 
 </div>
