@@ -124,11 +124,11 @@ We utilize the preprocessed human neuroimaging benchmark data from **The Algonau
 For each model stage, pairwise distance between stimulus feature vectors $z_i, z_j$ is computed via Pearson correlation distance:
 $$D_{ij} = 1 - \rho_{\mathrm{Pearson}}(z_i, z_j)$$
 
-Across 92 images, each symmetric RDM yields $\frac{92 \times 91}{2} = 4{,}186$ unique off-diagonal pairwise dissimilarities ($\operatorname{vec}_u$).
+Across 92 images, each symmetric RDM yields $\frac{92 \times 91}{2} = 4{,}186$ unique off-diagonal pairwise dissimilarities ($\mathrm{vec}_u$).
 
 ### 2. Second-Order Brain Alignment (RSA)
 Alignment between the model RDM and each brain target RDM is quantified via Spearman's rank correlation:
-$$r_{\mathrm{RSA}} = \rho_{\mathrm{Spearman}}\bigl(\operatorname{vec}_u D_{\mathrm{model}},\, \operatorname{vec}_u D_{\mathrm{brain}}\bigr)$$
+$$r_{\mathrm{RSA}} = \rho_{\mathrm{Spearman}}\bigl(\mathrm{vec}_u D_{\mathrm{model}},\, \mathrm{vec}_u D_{\mathrm{brain}}\bigr)$$
 
 ### 3. Hypothesis Difference Metrics
 To isolate specific computational contributions:
