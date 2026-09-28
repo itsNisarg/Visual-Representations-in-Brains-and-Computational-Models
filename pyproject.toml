@@ -4,4 +4,10 @@ version = "0.1.0"
 description = "Visual Representations in Brains and Computational Models"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "h5py>=3.16.0",
+    "pillow>=12.3.0",
+    "scipy>=1.18.1",
+    "torch>=2.14.0",
+    "torchvision>=0.29.0",
+]
